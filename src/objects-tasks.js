@@ -134,8 +134,17 @@ function makeImmutable(obj) {
  *    makeWord({ a: [0, 1], b: [2, 3], c: [4, 5] }) => 'aabbcc'
  *    makeWord({ H:[0], e: [1], l: [2, 3, 8], o: [4, 6], W:[5], r:[7], d:[9]}) => 'HelloWorld'
  */
-function makeWord(/* lettersObject */) {
-  throw new Error('Not implemented');
+function makeWord(lettersObject) {
+  const arraySize = Object.values(lettersObject).flat().length;
+  const lettersArray = new Array(arraySize).fill('');
+
+  Object.entries(lettersObject).forEach(([key, values]) => {
+    values.forEach((item) => {
+      lettersArray[item] = key;
+    });
+  });
+
+  return lettersArray.join('');
 }
 
 /**
@@ -152,8 +161,41 @@ function makeWord(/* lettersObject */) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  const billsCount = {
+    25: 0,
+    50: 0,
+  };
+
+  let canSell = true;
+
+  queue.forEach((bill) => {
+    switch (bill) {
+      case 25:
+        billsCount[25] += 1;
+        break;
+      case 50:
+        billsCount[25] -= 1;
+        billsCount[50] += 1;
+        break;
+      case 100:
+        if (billsCount[50] > 0) {
+          billsCount[50] -= 1;
+          billsCount[25] -= 1;
+        } else {
+          billsCount[25] -= 3;
+        }
+        break;
+      default:
+        canSell = false;
+    }
+
+    if (billsCount[25] < 0 || billsCount[50] < 0) {
+      canSell = false;
+    }
+  });
+
+  return canSell;
 }
 
 /**
@@ -169,9 +211,14 @@ function sellTickets(/* queue */) {
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  this.width = width;
+  this.height = height;
 }
+
+Rectangle.prototype.getArea = function getArea() {
+  return this.width * this.height;
+};
 
 /**
  * Returns the JSON representation of specified object
