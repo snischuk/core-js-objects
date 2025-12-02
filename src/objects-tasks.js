@@ -416,7 +416,7 @@ const cssSelectorBuilder = {
     }
     if (this.order === order && DISALLOWED_ORDERS.includes(order)) {
       throw new Error(
-        'Element, id and pseudo-element should not occur more then one time inside the selector'
+        'Element, id and pseudo-element should not occur more than one time inside the selector'
       );
     }
     const obj = Object.create(this);
